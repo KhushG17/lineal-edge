@@ -529,8 +529,13 @@ function initContactForm() {
 	const submitButton = form.querySelector('button[type="submit"]');
 	const endpoint = form.dataset.endpoint || '';
 	const recaptchaSiteKey = form.dataset.recaptchaSiteKey || '';
+	const pageField = form.querySelector('#contact-page');
+	const submittedAtField = form.querySelector('#contact-submitted-at');
+	const recaptchaField = form.querySelector('#contact-recaptcha-token');
 
 	let recaptchaPromise = null;
+	let iframeTarget = null;
+	let iframeCounter = 0;
 
 	const getFieldLabel = (field) => {
 		const label = form.querySelector(`label[for="${field.id}"]`);
@@ -644,28 +649,63 @@ function initContactForm() {
 		}), 10000, 'Verification is taking too long. Please refresh and try again.');
 	};
 
-	const submitToEndpoint = async (formData) => {
-		const payload = new URLSearchParams();
-		payload.set('name', formData.get('name') || '');
-		payload.set('email', formData.get('email') || '');
-		payload.set('phone', formData.get('phone') || '');
-		payload.set('subject', formData.get('subject') || '');
-		payload.set('message', formData.get('message') || '');
-		payload.set('company', formData.get('company') || '');
-		payload.set('page', window.location.href);
-		payload.set('submittedAt', new Date().toISOString());
-		payload.set('recaptchaToken', await getRecaptchaToken());
+	const ensureIframeTarget = () => {
+		if (iframeTarget) {
+			iframeTarget.remove();
+			iframeTarget = null;
+		}
+		const iframe = document.createElement('iframe');
+		iframeCounter += 1;
+		iframe.name = `contactFormTarget${iframeCounter}`;
+		iframe.title = 'Contact form submission';
+		iframe.setAttribute('aria-hidden', 'true');
+		iframe.tabIndex = -1;
+		iframe.style.position = 'absolute';
+		iframe.style.width = '1px';
+		iframe.style.height = '1px';
+		iframe.style.opacity = '0';
+		iframe.style.pointerEvents = 'none';
+		iframe.style.left = '-9999px';
+		iframe.style.top = '0';
+		document.body.appendChild(iframe);
+		iframeTarget = iframe;
+		return iframeTarget;
+	};
 
-		fetch(endpoint, {
-			method: 'POST',
-			mode: 'no-cors',
-			headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
-			body: payload.toString()
-		});
+	const submitToEndpoint = async () => {
+		const token = await getRecaptchaToken();
+		if (pageField) pageField.value = window.location.href;
+		if (submittedAtField) submittedAtField.value = new Date().toISOString();
+		if (recaptchaField) recaptchaField.value = token || '';
 
-		await new Promise((resolve) => {
-			window.setTimeout(resolve, 240);
-		});
+			const iframe = ensureIframeTarget();
+
+		return withTimeout(new Promise((resolve, reject) => {
+			let settled = false;
+
+			const cleanup = () => {
+				iframe.removeEventListener('load', onLoad);
+			};
+
+			const onLoad = () => {
+				if (settled) return;
+				settled = true;
+				cleanup();
+				resolve();
+			};
+
+			iframe.addEventListener('load', onLoad);
+
+			try {
+				form.setAttribute('action', endpoint);
+				form.setAttribute('method', 'post');
+				form.setAttribute('target', iframe.name);
+				HTMLFormElement.prototype.submit.call(form);
+			} catch (error) {
+				cleanup();
+				reject(error);
+			}
+		}), 12000, 'Submission is taking too long. Please try again.');
 	};
 
 	const openMailFallback = (formData) => {
@@ -706,9 +746,8 @@ function initContactForm() {
 			return;
 		}
 
-		const formData = new FormData(form);
-
 		if (!endpoint) {
+			const formData = new FormData(form);
 			openMailFallback(formData);
 			form.reset();
 			requiredFields.forEach((field) => field.setAttribute('aria-invalid', 'false'));
@@ -718,7 +757,7 @@ function initContactForm() {
 		try {
 			setSubmitting(true);
 			setStatus('Submitting your inquiry...');
-			await submitToEndpoint(formData);
+			await submitToEndpoint();
 			setStatus('Thank you. Your inquiry has been submitted successfully.');
 			form.reset();
 			form.querySelectorAll('input, textarea').forEach((field) => {
