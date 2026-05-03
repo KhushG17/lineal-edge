@@ -1364,6 +1364,17 @@ body.page-home .team-portrait{
 	place-items: center;
 }
 body.page-home .team-portrait svg{ width: 50%; height: 50%; opacity: 0.6; color: var(--navy-light); }
+body.page-home .team-portrait img{
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center top;
+	display: block;
+	transition: transform var(--dur) var(--ease);
+}
+body.page-home .team-member-card:hover .team-portrait img{
+	transform: scale(1.03);
+}
 body.page-home .team-member-name{
 	font-family: var(--font-display);
 	font-size: 1.375rem;
@@ -2584,12 +2595,28 @@ body.page-about .team-photo::before{
 	text-transform: uppercase;
 	opacity: 0.68;
 }
+body.page-about .team-photo:has(img)::before{
+	display: none;
+}
+body.page-about .team-photo img{
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center top;
+	display: block;
+	filter: grayscale(1) contrast(1.04);
+	transition: filter var(--dur) var(--ease), transform 500ms var(--ease);
+}
+body.page-about .team-card:hover .team-photo img{
+	filter: grayscale(0) contrast(1);
+	transform: scale(1.03);
+}
 body.page-about .team-overlay{
 	position: absolute;
 	inset: 0;
 	padding: 18px 18px 22px;
 	border-radius: 22px;
-	background: linear-gradient(0deg, rgba(9,29,67,0.88) 0%, rgba(20,54,108,0.54) 34%, rgba(20,54,108,0.08) 64%, rgba(20,54,108,0) 100%);
+	background: linear-gradient(0deg, rgba(9,29,67,0.62) 0%, rgba(20,54,108,0.2) 42%, rgba(20,54,108,0) 72%);
 	display: flex;
 	align-items: flex-end;
 	justify-content: flex-start;
