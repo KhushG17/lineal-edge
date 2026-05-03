@@ -532,6 +532,17 @@ function initContactForm() {
 
 	let recaptchaPromise = null;
 
+	const withTimeout = (promise, ms, message) => {
+		let timeoutId;
+		const timeout = new Promise((_, reject) => {
+			timeoutId = window.setTimeout(() => reject(new Error(message)), ms);
+		});
+
+		return Promise.race([promise, timeout]).finally(() => {
+			window.clearTimeout(timeoutId);
+		});
+	};
+
 	const setStatus = (message, isError = false) => {
 		if (!status) return;
 		status.textContent = message;
@@ -599,20 +610,20 @@ function initContactForm() {
 			document.head.appendChild(script);
 		});
 
-		return recaptchaPromise;
+		return withTimeout(recaptchaPromise, 8000, 'Verification could not load. Please refresh and try again.');
 	};
 
 	const getRecaptchaToken = async () => {
 		const grecaptcha = await loadRecaptcha();
 		if (!grecaptcha || !recaptchaSiteKey) return '';
 
-		return new Promise((resolve, reject) => {
+		return withTimeout(new Promise((resolve, reject) => {
 			grecaptcha.ready(() => {
 				grecaptcha.execute(recaptchaSiteKey, { action: 'contact' })
 					.then(resolve)
 					.catch(() => reject(new Error('Unable to verify this request.')));
 			});
-		});
+		}), 10000, 'Verification is taking too long. Please refresh and try again.');
 	};
 
 	const submitToEndpoint = async (formData) => {
@@ -635,7 +646,7 @@ function initContactForm() {
 		});
 
 		const timeout = new Promise((resolve) => {
-			window.setTimeout(resolve, 4500);
+			window.setTimeout(resolve, 6500);
 		});
 
 		await Promise.race([request, timeout]);
