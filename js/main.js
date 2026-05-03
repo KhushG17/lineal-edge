@@ -627,6 +627,10 @@ function initContactForm() {
 		return withTimeout(recaptchaPromise, 8000, 'Verification could not load. Please refresh and try again.');
 	};
 
+	if (recaptchaSiteKey) {
+		loadRecaptcha().catch(() => {});
+	}
+
 	const getRecaptchaToken = async () => {
 		const grecaptcha = await loadRecaptcha();
 		if (!grecaptcha || !recaptchaSiteKey) return '';
@@ -643,27 +647,25 @@ function initContactForm() {
 	const submitToEndpoint = async (formData) => {
 		const payload = new URLSearchParams();
 		payload.set('name', formData.get('name') || '');
-		payload.set('email', formData.get('email') || 'not-provided@linealedge.in');
+		payload.set('email', formData.get('email') || '');
 		payload.set('phone', formData.get('phone') || '');
-		payload.set('subject', formData.get('subject') || 'Website Inquiry');
-		payload.set('message', formData.get('message') || 'Lead submitted from the website contact form.');
+		payload.set('subject', formData.get('subject') || '');
+		payload.set('message', formData.get('message') || '');
 		payload.set('company', formData.get('company') || '');
 		payload.set('page', window.location.href);
 		payload.set('submittedAt', new Date().toISOString());
 		payload.set('recaptchaToken', await getRecaptchaToken());
 
-		const request = fetch(endpoint, {
+		fetch(endpoint, {
 			method: 'POST',
 			mode: 'no-cors',
 			headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
 			body: payload.toString()
 		});
 
-		const timeout = new Promise((resolve) => {
-			window.setTimeout(resolve, 6500);
+		await new Promise((resolve) => {
+			window.setTimeout(resolve, 240);
 		});
-
-		await Promise.race([request, timeout]);
 	};
 
 	const openMailFallback = (formData) => {
