@@ -532,6 +532,12 @@ function initContactForm() {
 
 	let recaptchaPromise = null;
 
+	const getFieldLabel = (field) => {
+		const label = form.querySelector(`label[for="${field.id}"]`);
+		if (!label) return 'This field';
+		return label.textContent.replace('*', '').trim();
+	};
+
 	const withTimeout = (promise, ms, message) => {
 		let timeoutId;
 		const timeout = new Promise((_, reject) => {
@@ -562,9 +568,9 @@ function initContactForm() {
 
 		if (field.required && !value) {
 			valid = false;
-			message = 'This field is required.';
+			message = `${getFieldLabel(field)} is required.`;
 		}
-		if (valid && field === emailField && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+		if (valid && field === emailField && value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
 			valid = false;
 			message = 'Enter a valid email address.';
 		}
@@ -585,8 +591,16 @@ function initContactForm() {
 	requiredFields.forEach((field) => {
 		field.addEventListener('input', () => {
 			if (field.getAttribute('aria-invalid') === 'true') validateField(field);
+			if (status && status.classList.contains('is-error')) setStatus('');
 		});
 		field.addEventListener('blur', () => validateField(field));
+	});
+
+	form.querySelectorAll('input, textarea').forEach((field) => {
+		field.addEventListener('input', () => {
+			const error = form.querySelector(`[data-error-for="${field.id}"]`);
+			if (error && field.getAttribute('aria-invalid') !== 'true') error.textContent = '';
+		});
 	});
 
 	if (phoneField) {
@@ -629,10 +643,10 @@ function initContactForm() {
 	const submitToEndpoint = async (formData) => {
 		const payload = new URLSearchParams();
 		payload.set('name', formData.get('name') || '');
-		payload.set('email', formData.get('email') || '');
+		payload.set('email', formData.get('email') || 'not-provided@linealedge.in');
 		payload.set('phone', formData.get('phone') || '');
-		payload.set('subject', formData.get('subject') || '');
-		payload.set('message', formData.get('message') || '');
+		payload.set('subject', formData.get('subject') || 'Website Inquiry');
+		payload.set('message', formData.get('message') || 'Lead submitted from the website contact form.');
 		payload.set('company', formData.get('company') || '');
 		payload.set('page', window.location.href);
 		payload.set('submittedAt', new Date().toISOString());
@@ -672,15 +686,21 @@ function initContactForm() {
 		event.preventDefault();
 
 		if (honeypot && honeypot.value.trim()) {
-			setStatus('Thanks. Your message has been received.');
+			setStatus('Thanks. Your inquiry has been received.');
 			form.reset();
 			return;
 		}
 
 		const invalidFields = requiredFields.filter((field) => !validateField(field));
+		if (emailField && emailField.value.trim()) validateField(emailField);
 		if (invalidFields.length) {
-			setStatus('Please complete the required fields before submitting.', true);
+			setStatus('Please fill in the required details before submitting.', true);
 			invalidFields[0].focus();
+			return;
+		}
+		if (emailField && emailField.getAttribute('aria-invalid') === 'true') {
+			setStatus('Please correct the highlighted email address.', true);
+			emailField.focus();
 			return;
 		}
 
@@ -697,11 +717,15 @@ function initContactForm() {
 			setSubmitting(true);
 			setStatus('Submitting your inquiry...');
 			await submitToEndpoint(formData);
-			setStatus('Thanks. Your inquiry has been submitted.');
+			setStatus('Thank you. Your inquiry has been submitted successfully.');
 			form.reset();
-			requiredFields.forEach((field) => field.setAttribute('aria-invalid', 'false'));
+			form.querySelectorAll('input, textarea').forEach((field) => {
+				field.setAttribute('aria-invalid', 'false');
+				const error = form.querySelector(`[data-error-for="${field.id}"]`);
+				if (error) error.textContent = '';
+			});
 		} catch (error) {
-			setStatus(error.message || 'Something went wrong. Please try again.', true);
+			setStatus(error.message || 'Something went wrong while submitting the form. Please try again.', true);
 		} finally {
 			setSubmitting(false);
 		}

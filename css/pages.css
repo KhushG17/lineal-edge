@@ -4789,6 +4789,10 @@ body.page-contact .field label{
 	font-weight: 600;
 	color: rgba(255,255,255,0.84);
 }
+body.page-contact .field-required{
+	color: var(--green-light);
+	font-weight: 700;
+}
 body.page-contact .field input, body.page-contact .field textarea{
 	width: 100%;
 	border: 1px solid rgba(255,255,255,0.14);
