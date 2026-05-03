@@ -14,6 +14,8 @@ const headerFallback = `
 		<a data-link="services.html" data-page-link="services" class="nav-link">Services</a>
 		<a data-link="careers.html" data-page-link="careers" class="nav-link">Careers</a>
 		<a data-link="contact.html" data-page-link="contact" class="nav-link">Contact</a>
+		<a data-link="policies/faq.html" data-page-link="faq" class="nav-link">FAQ</a>
+		<a data-link="policies/disclosure.html" data-page-link="disclosure" class="nav-link">Disclosure</a>
 		<div class="nav-login" id="navLogin">
 			<button class="nav-login-toggle" id="navLoginToggle" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="navLoginMenu">
 				<span>Login</span>
@@ -310,6 +312,7 @@ function initAboutJourney() {
 	const panels = document.querySelectorAll('.journey-panel');
 	const markers = document.querySelectorAll('.journey-year-marker');
 	const yearsFill = document.getElementById('journeyYearsFill');
+	const treeViz = document.querySelector('.journey-tree-viz');
 	const orgTrunk = document.querySelector('.tree-trunk-org');
 	const orgBranches = document.querySelector('.tree-branches-org');
 	const orgFoliage = document.querySelector('.tree-foliage-org');
@@ -318,11 +321,12 @@ function initAboutJourney() {
 	function setStage(idx) {
 		panels.forEach((panel) => panel.classList.toggle('active', Number(panel.dataset.idx) === idx));
 		markers.forEach((marker) => marker.classList.toggle('active', Number(marker.dataset.idx) === idx));
+		if (treeViz) treeViz.dataset.treeStage = String(idx);
 		yearsFill.style.setProperty('--fill', idx === 0 ? 0 : idx === 1 ? 0.5 : 1);
 		orgTrunk.classList.remove('s1', 's2');
 		orgBranches.classList.remove('s1', 's2');
-		orgFoliage.classList.remove('s2');
-		if (idx >= 1) { orgTrunk.classList.add('s1'); orgBranches.classList.add('s1'); }
+		orgFoliage.classList.remove('s1', 's2');
+		if (idx >= 1) { orgTrunk.classList.add('s1'); orgBranches.classList.add('s1'); orgFoliage.classList.add('s1'); }
 		if (idx >= 2) { orgTrunk.classList.add('s2'); orgBranches.classList.add('s2'); orgFoliage.classList.add('s2'); }
 	}
 
@@ -409,6 +413,7 @@ function initHomeJourney() {
 	const panels = document.querySelectorAll('.journey-panel');
 	const markers = document.querySelectorAll('.journey-year-marker');
 	const yearsFill = document.getElementById('journeyYearsFill');
+	const treeViz = document.querySelector('.journey-tree-viz');
 	const orgTrunk = document.querySelector('.tree-trunk-org');
 	const orgBranches = document.querySelector('.tree-branches-org');
 	const orgFoliage = document.querySelector('.tree-foliage-org');
@@ -417,11 +422,12 @@ function initHomeJourney() {
 	function setStage(idx) {
 		panels.forEach((panel) => panel.classList.toggle('active', Number(panel.dataset.idx) === idx));
 		markers.forEach((marker) => marker.classList.toggle('active', Number(marker.dataset.idx) === idx));
+		if (treeViz) treeViz.dataset.treeStage = String(idx);
 		yearsFill.style.setProperty('--fill', idx === 0 ? 0 : idx === 1 ? 0.5 : 1);
 		orgTrunk.classList.remove('s1', 's2');
 		orgBranches.classList.remove('s1', 's2');
-		orgFoliage.classList.remove('s2');
-		if (idx >= 1) { orgTrunk.classList.add('s1'); orgBranches.classList.add('s1'); }
+		orgFoliage.classList.remove('s1', 's2');
+		if (idx >= 1) { orgTrunk.classList.add('s1'); orgBranches.classList.add('s1'); orgFoliage.classList.add('s1'); }
 		if (idx >= 2) { orgTrunk.classList.add('s2'); orgBranches.classList.add('s2'); orgFoliage.classList.add('s2'); }
 	}
 
@@ -518,7 +524,13 @@ function initContactForm() {
 	const status = document.getElementById('contactFormStatus');
 	const requiredFields = Array.from(form.querySelectorAll('[required]'));
 	const emailField = form.querySelector('input[type="email"]');
+	const phoneField = form.querySelector('input[type="tel"]');
 	const honeypot = form.querySelector('input[name="company"]');
+	const submitButton = form.querySelector('button[type="submit"]');
+	const endpoint = form.dataset.endpoint || '';
+	const recaptchaSiteKey = form.dataset.recaptchaSiteKey || '';
+
+	let recaptchaPromise = null;
 
 	const setStatus = (message, isError = false) => {
 		if (!status) return;
@@ -526,14 +538,36 @@ function initContactForm() {
 		status.classList.toggle('is-error', isError);
 	};
 
+	const setSubmitting = (isSubmitting) => {
+		if (!submitButton) return;
+		submitButton.disabled = isSubmitting;
+		submitButton.classList.toggle('is-loading', isSubmitting);
+	};
+
 	const validateField = (field) => {
 		const value = field.value.trim();
 		let valid = true;
+		let message = '';
 
-		if (!value) valid = false;
-		if (valid && field === emailField) valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+		if (field.required && !value) {
+			valid = false;
+			message = 'This field is required.';
+		}
+		if (valid && field === emailField && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+			valid = false;
+			message = 'Enter a valid email address.';
+		}
+		if (valid && field === phoneField) {
+			const digits = value.replace(/\D/g, '');
+			if (!/^[0-9+()\-\s]{7,20}$/.test(value) || digits.length < 7 || digits.length > 15) {
+				valid = false;
+				message = 'Enter a valid phone number.';
+			}
+		}
 
 		field.setAttribute('aria-invalid', String(!valid));
+		const error = form.querySelector(`[data-error-for="${field.id}"]`);
+		if (error) error.textContent = message;
 		return valid;
 	};
 
@@ -541,9 +575,89 @@ function initContactForm() {
 		field.addEventListener('input', () => {
 			if (field.getAttribute('aria-invalid') === 'true') validateField(field);
 		});
+		field.addEventListener('blur', () => validateField(field));
 	});
 
-	form.addEventListener('submit', (event) => {
+	if (phoneField) {
+		phoneField.addEventListener('input', () => {
+			phoneField.value = phoneField.value.replace(/[^\d+()\-\s]/g, '');
+		});
+	}
+
+	const loadRecaptcha = () => {
+		if (!recaptchaSiteKey) return Promise.resolve(null);
+		if (window.grecaptcha) return Promise.resolve(window.grecaptcha);
+		if (recaptchaPromise) return recaptchaPromise;
+
+		recaptchaPromise = new Promise((resolve, reject) => {
+			const script = document.createElement('script');
+			script.src = `https://www.google.com/recaptcha/api.js?render=${encodeURIComponent(recaptchaSiteKey)}`;
+			script.async = true;
+			script.defer = true;
+			script.onload = () => resolve(window.grecaptcha || null);
+			script.onerror = () => reject(new Error('Unable to load verification.'));
+			document.head.appendChild(script);
+		});
+
+		return recaptchaPromise;
+	};
+
+	const getRecaptchaToken = async () => {
+		const grecaptcha = await loadRecaptcha();
+		if (!grecaptcha || !recaptchaSiteKey) return '';
+
+		return new Promise((resolve, reject) => {
+			grecaptcha.ready(() => {
+				grecaptcha.execute(recaptchaSiteKey, { action: 'contact' })
+					.then(resolve)
+					.catch(() => reject(new Error('Unable to verify this request.')));
+			});
+		});
+	};
+
+	const submitToEndpoint = async (formData) => {
+		const payload = new URLSearchParams();
+		payload.set('name', formData.get('name') || '');
+		payload.set('email', formData.get('email') || '');
+		payload.set('phone', formData.get('phone') || '');
+		payload.set('subject', formData.get('subject') || '');
+		payload.set('message', formData.get('message') || '');
+		payload.set('company', formData.get('company') || '');
+		payload.set('page', window.location.href);
+		payload.set('submittedAt', new Date().toISOString());
+		payload.set('recaptchaToken', await getRecaptchaToken());
+
+		const request = fetch(endpoint, {
+			method: 'POST',
+			mode: 'no-cors',
+			headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+			body: payload.toString()
+		});
+
+		const timeout = new Promise((resolve) => {
+			window.setTimeout(resolve, 4500);
+		});
+
+		await Promise.race([request, timeout]);
+	};
+
+	const openMailFallback = (formData) => {
+		const subject = encodeURIComponent(formData.get('subject'));
+		const lines = [
+			`Name: ${formData.get('name') || ''}`,
+			`Email: ${formData.get('email') || ''}`,
+			`Phone: ${formData.get('phone') || ''}`,
+			'',
+			'Message:',
+			`${formData.get('message') || ''}`
+		];
+		const body = encodeURIComponent(lines.join('\n'));
+
+		setStatus('Opening your email app so you can send this inquiry.');
+		window.location.href = `mailto:info@linealedge.com?subject=${subject}&body=${body}`;
+	};
+
+	form.addEventListener('submit', async (event) => {
 		event.preventDefault();
 
 		if (honeypot && honeypot.value.trim()) {
@@ -560,21 +674,26 @@ function initContactForm() {
 		}
 
 		const formData = new FormData(form);
-		const subject = encodeURIComponent(formData.get('subject'));
-		const lines = [
-			`Name: ${formData.get('name') || ''}`,
-			`Email: ${formData.get('email') || ''}`,
-			`Phone: ${formData.get('phone') || ''}`,
-			'',
-			'Message:',
-			`${formData.get('message') || ''}`
-		];
-		const body = encodeURIComponent(lines.join('\n'));
 
-		setStatus('Opening your email app so you can send this inquiry.');
-		window.location.href = `mailto:info@linealedge.com?subject=${subject}&body=${body}`;
-		form.reset();
-		requiredFields.forEach((field) => field.setAttribute('aria-invalid', 'false'));
+		if (!endpoint) {
+			openMailFallback(formData);
+			form.reset();
+			requiredFields.forEach((field) => field.setAttribute('aria-invalid', 'false'));
+			return;
+		}
+
+		try {
+			setSubmitting(true);
+			setStatus('Submitting your inquiry...');
+			await submitToEndpoint(formData);
+			setStatus('Thanks. Your inquiry has been submitted.');
+			form.reset();
+			requiredFields.forEach((field) => field.setAttribute('aria-invalid', 'false'));
+		} catch (error) {
+			setStatus(error.message || 'Something went wrong. Please try again.', true);
+		} finally {
+			setSubmitting(false);
+		}
 	});
 }
 

@@ -1,9 +1,10 @@
 /* Page-specific styles */
 
-/* lineal-edge-home.html */
+/* Home page */
 body.page-home.home-intro-pending{
 	overflow: hidden;
 }
+
 body.page-home .eyebrow{
 	display: inline-flex;
 	align-items: center;
@@ -1252,10 +1253,59 @@ body.page-home .tree-branches-org.s1, body.page-home .tree-branches-org.s2{ opac
 body.page-home .tree-foliage-org{
 	opacity: 0;
 	transform-origin: 260px 220px;
-	transform: scale(0.3);
-	transition: opacity 1s ease, transform 1.1s var(--ease);
+	transform: scale(0.28);
+	transition: opacity 1.1s ease, transform 1.25s var(--ease), filter 1.1s ease;
+	filter: saturate(0.9);
 }
-body.page-home .tree-foliage-org.s2{ opacity: 1; transform: scale(1); }
+body.page-home .tree-foliage-org.s1{
+	opacity: 0.92;
+	transform: scale(0.62);
+	filter: saturate(0.98);
+}
+body.page-home .tree-foliage-org.s2{
+	opacity: 1;
+	transform: scale(1);
+	filter: saturate(1.08);
+}
+body.page-home .tree-foliage-org .tree-leaf{
+	transform-box: fill-box;
+	transform-origin: center;
+	transition: opacity 1.1s ease, transform 1.25s var(--ease);
+}
+body.page-home .tree-foliage-org .tree-leaf--mid,
+body.page-home .tree-foliage-org .tree-leaf--outer,
+body.page-home .tree-foliage-org .tree-leaf--glow{
+	opacity: 0;
+}
+body.page-home .tree-foliage-org.s1 .tree-leaf--core{
+	transform: scale(0.78);
+}
+body.page-home .tree-foliage-org.s1 .tree-leaf--mid{
+	opacity: 1;
+	transform: scale(0.82);
+}
+body.page-home .tree-foliage-org.s1 .tree-leaf--outer,
+body.page-home .tree-foliage-org.s1 .tree-leaf--glow{
+	opacity: 0.18;
+	transform: scale(0.7);
+}
+body.page-home .tree-foliage-org.s2 .tree-leaf--core,
+body.page-home .tree-foliage-org.s2 .tree-leaf--mid,
+body.page-home .tree-foliage-org.s2 .tree-leaf--outer,
+body.page-home .tree-foliage-org.s2 .tree-leaf--glow{
+	opacity: 1;
+	transform: scale(1);
+}
+body.page-home .tree-fruits-org{
+	opacity: 0;
+	transform-origin: 260px 240px;
+	transform: translateY(10px) scale(0.7);
+	transition: opacity 0.8s ease 0.18s, transform 0.95s var(--ease) 0.18s;
+}
+body.page-home .tree-foliage-org.s2 .tree-fruits-org{
+	opacity: 1;
+	transform: translateY(0) scale(1);
+}
 body.page-home .tree-seed-org{
 	transform-origin: 260px 450px;
 	animation: seedSway 5s var(--ease) infinite;
@@ -2434,10 +2484,59 @@ body.page-about .tree-branches-org.s1, body.page-about .tree-branches-org.s2{ op
 body.page-about .tree-foliage-org{
 	opacity: 0;
 	transform-origin: 260px 220px;
-	transform: scale(0.3);
-	transition: opacity 1s ease, transform 1.1s var(--ease);
+	transform: scale(0.28);
+	transition: opacity 1.1s ease, transform 1.25s var(--ease), filter 1.1s ease;
+	filter: saturate(0.9);
 }
-body.page-about .tree-foliage-org.s2{ opacity: 1; transform: scale(1); }
+body.page-about .tree-foliage-org.s1{
+	opacity: 0.92;
+	transform: scale(0.62);
+	filter: saturate(0.98);
+}
+body.page-about .tree-foliage-org.s2{
+	opacity: 1;
+	transform: scale(1);
+	filter: saturate(1.08);
+}
+body.page-about .tree-foliage-org .tree-leaf{
+	transform-box: fill-box;
+	transform-origin: center;
+	transition: opacity 1.1s ease, transform 1.25s var(--ease);
+}
+body.page-about .tree-foliage-org .tree-leaf--mid,
+body.page-about .tree-foliage-org .tree-leaf--outer,
+body.page-about .tree-foliage-org .tree-leaf--glow{
+	opacity: 0;
+}
+body.page-about .tree-foliage-org.s1 .tree-leaf--core{
+	transform: scale(0.78);
+}
+body.page-about .tree-foliage-org.s1 .tree-leaf--mid{
+	opacity: 1;
+	transform: scale(0.82);
+}
+body.page-about .tree-foliage-org.s1 .tree-leaf--outer,
+body.page-about .tree-foliage-org.s1 .tree-leaf--glow{
+	opacity: 0.18;
+	transform: scale(0.7);
+}
+body.page-about .tree-foliage-org.s2 .tree-leaf--core,
+body.page-about .tree-foliage-org.s2 .tree-leaf--mid,
+body.page-about .tree-foliage-org.s2 .tree-leaf--outer,
+body.page-about .tree-foliage-org.s2 .tree-leaf--glow{
+	opacity: 1;
+	transform: scale(1);
+}
+body.page-about .tree-fruits-org{
+	opacity: 0;
+	transform-origin: 260px 240px;
+	transform: translateY(10px) scale(0.7);
+	transition: opacity 0.8s ease 0.18s, transform 0.95s var(--ease) 0.18s;
+}
+body.page-about .tree-foliage-org.s2 .tree-fruits-org{
+	opacity: 1;
+	transform: translateY(0) scale(1);
+}
 body.page-about .tree-seed-org{
 	transform-origin: 260px 450px;
 	animation: seedSway 5s var(--ease) infinite;
@@ -4681,6 +4780,18 @@ body.page-contact .field input:focus, body.page-contact .field textarea:focus{
 	border-color: rgba(126,234,160,0.78);
 	box-shadow: 0 0 0 4px rgba(126,234,160,0.14);
 }
+body.page-contact .field button[disabled]{
+	cursor: wait;
+	opacity: 0.72;
+	transform: none;
+}
+body.page-contact .field button[disabled] .lbl{
+	opacity: 1;
+	transform: none;
+}
+body.page-contact .field button[disabled] .arr{
+	opacity: 0;
+}
 body.page-contact .field textarea{
 	min-height: 168px;
 	resize: vertical;
@@ -4697,6 +4808,14 @@ body.page-contact .field input[aria-invalid="true"],
 body.page-contact .field textarea[aria-invalid="true"]{
 	border-color: rgba(255,125,125,0.78);
 	box-shadow: 0 0 0 4px rgba(255,125,125,0.14);
+}
+body.page-contact .field-error{
+	display: block;
+	min-height: 1.2em;
+	margin-top: 7px;
+	font-size: 0.82rem;
+	line-height: 1.25;
+	color: rgba(255,186,186,0.96);
 }
 body.page-contact .form-status{
 	margin-top: 16px;
@@ -6426,5 +6545,280 @@ body.page-policy .page-heading{
 		border-color: rgba(7,31,69,0.1) !important;
 		background: rgba(247,248,250,1) !important;
 		box-shadow: none !important;
+	}
+}
+
+body.page-home .journey-tree-viz,
+body.page-about .journey-tree-viz{
+	background:
+		radial-gradient(80% 52% at 50% 100%, rgba(42,197,88,0.12) 0%, transparent 62%),
+		linear-gradient(180deg, #FFFFFF 0%, #F5F8F3 56%, #EEF5EA 100%);
+}
+
+body.page-home .tree-trunk-org,
+body.page-about .tree-trunk-org,
+body.page-home .tree-branches-org,
+body.page-about .tree-branches-org,
+body.page-home .tree-foliage-org,
+body.page-about .tree-foliage-org,
+body.page-home .tree-mature-org,
+body.page-about .tree-mature-org,
+body.page-home .tree-mature-fruits,
+body.page-about .tree-mature-fruits,
+body.page-home .tree-sapling-focus,
+body.page-about .tree-sapling-focus{
+	transform-box: fill-box;
+	transform-origin: center bottom;
+	will-change: opacity, transform, filter;
+}
+
+body.page-home .tree-trunk-org,
+body.page-about .tree-trunk-org,
+body.page-home .tree-branches-org,
+body.page-about .tree-branches-org,
+body.page-home .tree-foliage-org,
+body.page-about .tree-foliage-org,
+body.page-home .tree-mature-org,
+body.page-about .tree-mature-org,
+body.page-home .tree-fruits-org,
+body.page-about .tree-fruits-org,
+body.page-home .tree-fruit-mark,
+body.page-about .tree-fruit-mark,
+body.page-home .tree-seed-org,
+body.page-about .tree-seed-org{
+	opacity: 0;
+	pointer-events: none;
+}
+
+body.page-home .tree-sapling-focus,
+body.page-about .tree-sapling-focus{
+	opacity: 1;
+	transform: translateY(0) scale(0.9);
+	filter: drop-shadow(0 12px 12px rgba(42,197,88,0.16));
+	transition: opacity 0.55s ease, transform 0.75s var(--ease), filter 0.55s ease;
+}
+
+body.page-home .journey-tree-viz[data-tree-stage="1"] .tree-sapling-focus,
+body.page-about .journey-tree-viz[data-tree-stage="1"] .tree-sapling-focus,
+body.page-home .journey-tree-viz[data-tree-stage="2"] .tree-sapling-focus,
+body.page-about .journey-tree-viz[data-tree-stage="2"] .tree-sapling-focus{
+	opacity: 0;
+	transform: translateY(18px) scale(0.86);
+	filter: none;
+}
+
+body.page-home .tree-trunk-org,
+body.page-about .tree-trunk-org{
+	transform: translateY(12px) scale(0.66, 0.7);
+	transition: opacity 0.7s ease, transform 0.9s var(--ease), filter 0.7s ease;
+}
+
+body.page-home .tree-branches-org,
+body.page-about .tree-branches-org{
+	transform: translateY(14px) scale(0.72);
+	transition: opacity 0.7s ease 0.08s, transform 0.95s var(--ease) 0.08s;
+}
+
+body.page-home .tree-foliage-org,
+body.page-about .tree-foliage-org{
+	transform: translateY(16px) scale(0.76);
+	filter: saturate(0.98);
+	transition: opacity 0.75s ease 0.12s, transform 1s var(--ease) 0.12s, filter 0.75s ease;
+}
+
+body.page-home .tree-trunk-org.s1,
+body.page-about .tree-trunk-org.s1,
+body.page-home .tree-branches-org.s1,
+body.page-about .tree-branches-org.s1,
+body.page-home .tree-foliage-org.s1,
+body.page-about .tree-foliage-org.s1{
+	opacity: 1;
+	transform: translateY(0) scale(0.86);
+	filter: saturate(1.02);
+}
+
+body.page-home .tree-trunk-org.s2,
+body.page-about .tree-trunk-org.s2,
+body.page-home .tree-branches-org.s2,
+body.page-about .tree-branches-org.s2{
+	opacity: 1;
+	transform: translateY(0) scale(0.92);
+	filter: saturate(1.08);
+}
+
+body.page-home .tree-foliage-org.s2,
+body.page-about .tree-foliage-org.s2{
+	opacity: 0;
+	transform: translateY(0) scale(0.92);
+	filter: saturate(1.08);
+}
+
+body.page-home .tree-mature-org,
+body.page-about .tree-mature-org{
+	transform: translateY(12px) scale(0.82);
+	filter: saturate(1.08) drop-shadow(0 18px 18px rgba(25,92,42,0.08));
+	transition: opacity 0.78s ease 0.08s, transform 1.05s var(--ease) 0.08s, filter 0.85s ease;
+}
+
+body.page-home .journey-tree-viz[data-tree-stage="2"] .tree-mature-org,
+body.page-about .journey-tree-viz[data-tree-stage="2"] .tree-mature-org{
+	opacity: 1;
+	transform: translateY(0) scale(0.92);
+}
+
+body.page-home .tree-mature-fruits,
+body.page-about .tree-mature-fruits{
+	transform: translateY(8px) scale(0.86);
+	opacity: 0;
+	transition: opacity 0.7s ease 0.42s, transform 0.9s var(--ease) 0.42s;
+}
+
+body.page-home .journey-tree-viz[data-tree-stage="2"] .tree-mature-fruits,
+body.page-about .journey-tree-viz[data-tree-stage="2"] .tree-mature-fruits{
+	opacity: 1;
+	transform: translateY(0) scale(1);
+}
+
+body.page-home .journey-sticky,
+body.page-about .journey-sticky{
+	min-height: 100svh;
+	height: auto;
+	overflow: visible;
+	padding: clamp(64px, 7vh, 96px) 0;
+}
+
+body.page-home .journey-inner,
+body.page-about .journey-inner{
+	align-items: center;
+}
+
+body.page-home .journey-right,
+body.page-about .journey-right{
+	height: 100%;
+	max-height: none;
+	min-height: 0;
+	justify-content: center;
+}
+
+body.page-home .journey-panels,
+body.page-about .journey-panels{
+	min-height: clamp(300px, 44vh, 390px);
+}
+
+body.page-home .journey-tree-viz,
+body.page-about .journey-tree-viz{
+	--tree-gap: clamp(14px, 2.4vh, 24px);
+	position: relative;
+	flex: 1 1 auto;
+	height: auto;
+	min-height: clamp(300px, 38vh, 440px);
+	max-height: none;
+	overflow: hidden;
+	padding: 0;
+}
+
+body.page-home .journey-tree-viz svg,
+body.page-about .journey-tree-viz svg{
+	position: absolute;
+	left: 50%;
+	bottom: var(--tree-gap);
+	width: clamp(260px, 72%, 520px);
+	height: auto;
+	max-height: calc(100% - (var(--tree-gap) * 2));
+	transform: translateX(-50%);
+	transform-origin: center bottom;
+}
+
+@media (max-height: 760px) and (min-width: 1025px){
+	body.page-home .journey-sticky,
+	body.page-about .journey-sticky{
+		padding: 58px 0;
+	}
+
+	body.page-home .journey-inner,
+	body.page-about .journey-inner{
+		gap: var(--sp-10);
+	}
+
+	body.page-home .journey-stories-head,
+	body.page-about .journey-stories-head{
+		margin-bottom: var(--sp-5);
+	}
+
+	body.page-home .journey-panels,
+	body.page-about .journey-panels{
+		min-height: 285px;
+	}
+
+	body.page-home .journey-pbody,
+	body.page-about .journey-pbody{
+		font-size: 0.98rem;
+		line-height: 1.62;
+	}
+
+	body.page-home .journey-tree-viz,
+	body.page-about .journey-tree-viz{
+		--tree-gap: 16px;
+		min-height: clamp(260px, 35vh, 360px);
+	}
+
+	body.page-home .journey-tree-viz svg,
+	body.page-about .journey-tree-viz svg{
+		width: clamp(220px, 58%, 360px);
+	}
+}
+
+@media (max-width: 1024px){
+	body.page-home .journey-sticky,
+	body.page-about .journey-sticky{
+		min-height: 0;
+		padding: var(--sp-16) 0;
+	}
+
+	body.page-home .journey-right,
+	body.page-about .journey-right{
+		width: 100%;
+		height: auto;
+	}
+
+	body.page-home .journey-tree-viz,
+	body.page-about .journey-tree-viz{
+		--tree-gap: 16px;
+		flex: 0 0 auto;
+		height: clamp(300px, 58vw, 460px);
+		min-height: 300px;
+	}
+
+	body.page-home .journey-tree-viz svg,
+	body.page-about .journey-tree-viz svg{
+		width: clamp(260px, 72%, 430px);
+	}
+}
+
+@media (max-width: 560px){
+	body.page-home .journey-sticky,
+	body.page-about .journey-sticky{
+		padding: 48px 0;
+	}
+
+	body.page-home .journey-tree-viz,
+	body.page-about .journey-tree-viz{
+		--tree-gap: 14px;
+		flex: 0 0 auto;
+		height: clamp(280px, 82vw, 380px);
+		min-height: 280px;
+	}
+
+	body.page-home .journey-tree-viz svg,
+	body.page-about .journey-tree-viz svg{
+		width: clamp(230px, 78%, 330px);
+	}
+
+	body.page-home .journey-metrics,
+	body.page-about .journey-metrics{
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 12px;
+		padding: 16px;
 	}
 }

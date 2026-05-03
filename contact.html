@@ -79,29 +79,34 @@
 					</div>
 				</div>
 
-				<form class="contact-form ui-panel hover-lift" id="contactForm" novalidate>
+				<form class="contact-form ui-panel hover-lift" id="contactForm" data-endpoint="https://script.google.com/macros/s/AKfycbx87G8T_3beZHdjC-8pBaYvNNIva4r-6betdneJ5OkyXMwaNsGbgOK5fozfHDwwAjYZ/exec" data-recaptcha-site-key="6LfY9dYsAAAAAISmcoBz9f3SZmilnykOeF_xDpzK" novalidate>
 					<h2>Send a Message</h2>
 					<p>Share a few details and we'll connect with you shortly.</p>
 					<div class="form-grid">
 						<div class="field">
 							<label for="contact-name">Full Name</label>
 							<input id="contact-name" name="name" type="text" placeholder="Your full name" autocomplete="name" required />
+							<span class="field-error" data-error-for="contact-name"></span>
 						</div>
 						<div class="field">
 							<label for="contact-email">Email Address</label>
 							<input id="contact-email" name="email" type="email" placeholder="Your email address" autocomplete="email" required />
+							<span class="field-error" data-error-for="contact-email"></span>
 						</div>
 						<div class="field">
 							<label for="contact-phone">Phone Number</label>
-							<input id="contact-phone" name="phone" type="tel" placeholder="Your phone number" autocomplete="tel" />
+							<input id="contact-phone" name="phone" type="tel" placeholder="Your phone number" autocomplete="tel" inputmode="tel" pattern="^[0-9+()\\-\\s]{7,20}$" required />
+							<span class="field-error" data-error-for="contact-phone"></span>
 						</div>
 						<div class="field">
 							<label for="contact-subject">Subject</label>
-							<input id="contact-subject" name="subject" type="text" placeholder="How can we help?" required />
+							<input id="contact-subject" name="subject" type="text" placeholder="How can we help?" />
+							<span class="field-error" data-error-for="contact-subject"></span>
 						</div>
 						<div class="field field--full">
 							<label for="contact-message">Message</label>
 							<textarea id="contact-message" name="message" placeholder="Tell us a little more about your query" required></textarea>
+							<span class="field-error" data-error-for="contact-message"></span>
 						</div>
 						<div class="field field--hidden" aria-hidden="true">
 							<label for="contact-company">Company</label>
