@@ -7429,7 +7429,7 @@ body.page-about .journey-tree-viz svg{
 	}
 
 	body.page-home .values-logo{
-		width: min(96%, 360px);
+		width: min(86%, 324px);
 		max-width: none;
 		height: auto;
 		transform: none;
@@ -7527,7 +7527,7 @@ body.page-about .journey-tree-viz svg{
 	}
 
 	body.page-home .values-logo{
-		width: min(96%, 320px);
+		width: min(86%, 288px);
 	}
 
 	body.page-home .values-phase-title{
@@ -7649,7 +7649,7 @@ body.page-about .journey-tree-viz svg{
 	}
 
 	body.page-home .values-logo{
-		width: min(76%, 460px);
+		width: min(68%, 414px);
 		max-width: none;
 		height: auto;
 		transform: none;
