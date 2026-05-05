@@ -8146,3 +8146,149 @@ body.page-home .values-inner{
 		display: none;
 	}
 }
+
+/* Journey final responsive alignment */
+@media (min-width: 1025px){
+	:is(body.page-home, body.page-about) .journey-stories-head{
+		display: flex;
+	}
+
+	:is(body.page-home, body.page-about) .journey-metrics{
+		display: flex;
+	}
+
+	:is(body.page-home, body.page-about) .journey-sticky{
+		padding-top: clamp(56px, 6vh, 78px);
+		padding-bottom: clamp(56px, 6vh, 78px);
+	}
+
+	:is(body.page-home, body.page-about) .journey-left{
+		gap: 28px;
+	}
+
+	:is(body.page-home, body.page-about) .journey-right{
+		gap: 0;
+		justify-content: center;
+	}
+
+	:is(body.page-home, body.page-about) .journey-tree-viz{
+		flex: 0 0 auto;
+		height: clamp(380px, 52vh, 500px);
+		min-height: 0;
+		max-height: none;
+	}
+
+	:is(body.page-home, body.page-about) .journey-panels{
+		min-height: clamp(300px, 38vh, 360px);
+	}
+
+	:is(body.page-home, body.page-about) .journey-years{
+		margin-top: 0;
+	}
+}
+
+@media (min-width: 761px) and (max-width: 1024px){
+	:is(body.page-home, body.page-about) .journey-stories-head{
+		display: flex;
+		grid-row: 1;
+		margin: 0;
+	}
+
+	:is(body.page-home, body.page-about) .journey-metrics{
+		display: grid;
+		grid-row: 2;
+		grid-template-columns: 1fr 1fr;
+		gap: 18px;
+	}
+
+	:is(body.page-home, body.page-about) .journey-sticky{
+		top: -150px;
+		padding: 104px var(--site-gutter, 32px) 34px;
+	}
+
+	:is(body.page-home, body.page-about) .journey-inner{
+		max-width: 720px;
+		grid-template-rows: auto auto 340px minmax(230px, 1fr) auto;
+		gap: 22px;
+	}
+
+	:is(body.page-home, body.page-about) .journey-tree-viz{
+		grid-row: 3;
+		height: 340px;
+		min-height: 340px;
+		max-height: 340px;
+	}
+
+	:is(body.page-home, body.page-about) .journey-panels{
+		grid-row: 4;
+	}
+
+	:is(body.page-home, body.page-about) .journey-years{
+		grid-row: 5;
+	}
+}
+
+@media (max-width: 760px){
+	:is(body.page-home, body.page-about) .journey-stories-head{
+		display: flex;
+		grid-row: 1;
+		margin: 0;
+	}
+
+	:is(body.page-home, body.page-about) .journey-metrics{
+		display: grid;
+		grid-row: 2;
+		grid-template-columns: 1fr 1fr;
+		gap: 12px;
+	}
+
+	:is(body.page-home, body.page-about) .journey-sticky{
+		top: -148px;
+		padding: 92px var(--site-gutter, 20px) 22px;
+	}
+
+	:is(body.page-home, body.page-about) .journey-inner{
+		max-width: 420px;
+		grid-template-rows: auto auto 260px minmax(255px, 1fr) auto;
+		gap: 18px;
+	}
+
+	:is(body.page-home, body.page-about) .journey-tree-viz{
+		grid-row: 3;
+		height: 260px;
+		min-height: 260px;
+		max-height: 260px;
+		border-radius: 0 0 28px 28px;
+	}
+
+	:is(body.page-home, body.page-about) .journey-tree-viz svg{
+		width: min(88%, 300px);
+		height: 92%;
+	}
+
+	:is(body.page-home, body.page-about) .journey-panels{
+		grid-row: 4;
+	}
+
+	:is(body.page-home, body.page-about) .journey-years{
+		grid-row: 5;
+	}
+}
+
+@media (max-width: 420px){
+	:is(body.page-home, body.page-about) .journey-inner{
+		grid-template-rows: auto auto 230px minmax(265px, 1fr) auto;
+		gap: 16px;
+	}
+
+	:is(body.page-home, body.page-about) .journey-tree-viz{
+		height: 230px;
+		min-height: 230px;
+		max-height: 230px;
+	}
+
+	:is(body.page-home, body.page-about) .journey-tree-viz svg{
+		width: min(86%, 270px);
+		height: 90%;
+	}
+}
