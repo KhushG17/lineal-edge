@@ -8344,7 +8344,7 @@ body.page-home .values-inner{
 	:is(body.page-home, body.page-about) .journey-inner{
 		max-width: 720px;
 		height: 100%;
-		grid-template-rows: 20px 82px 340px minmax(220px, 1fr) auto;
+		grid-template-rows: 20px 82px 340px minmax(0, 1fr) auto;
 		gap: 14px;
 	}
 
@@ -8365,6 +8365,10 @@ body.page-home .values-inner{
 		height: 340px;
 		min-height: 340px;
 		max-height: 340px;
+	}
+
+	:is(body.page-home, body.page-about) .journey-panels{
+		min-height: 0;
 	}
 }
 
@@ -8418,7 +8422,7 @@ body.page-home .values-inner{
 	:is(body.page-home, body.page-about) .journey-inner{
 		max-width: 420px;
 		height: 100%;
-		grid-template-rows: 18px 72px 260px minmax(252px, 1fr) auto;
+		grid-template-rows: 18px 72px 260px minmax(0, 1fr) auto;
 		gap: 12px;
 	}
 
@@ -8455,6 +8459,14 @@ body.page-home .values-inner{
 		min-height: 260px;
 		max-height: 260px;
 	}
+
+	:is(body.page-home, body.page-about) .journey-panels{
+		min-height: 0;
+	}
+
+	:is(body.page-home, body.page-about) .journey-years{
+		padding: 14px 18px 12px;
+	}
 }
 
 @media (max-width: 420px){
@@ -8463,7 +8475,7 @@ body.page-home .values-inner{
 	}
 
 	:is(body.page-home, body.page-about) .journey-inner{
-		grid-template-rows: 18px 68px 230px minmax(265px, 1fr) auto;
+		grid-template-rows: 18px 68px 230px minmax(0, 1fr) auto;
 		gap: 10px;
 	}
 
@@ -8476,5 +8488,9 @@ body.page-home .values-inner{
 		height: 230px;
 		min-height: 230px;
 		max-height: 230px;
+	}
+
+	:is(body.page-home, body.page-about) .journey-years{
+		padding: 12px 16px 10px;
 	}
 }
