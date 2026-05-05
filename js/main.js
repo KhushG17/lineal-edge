@@ -22,12 +22,12 @@ const headerFallback = `
 				<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
 			</button>
 			<div class="nav-login-menu" id="navLoginMenu" role="menu" aria-label="Login portals">
-				<a data-link="contact.html" class="portal-link" role="menuitem">
+				<a data-link="https://linealedge.themfbox.com/" class="portal-link" role="menuitem" target="_blank" rel="noopener noreferrer">
 					<span class="portal-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M16 21v-2a4 4 0 00-4-4H7a4 4 0 00-4 4v2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9.5" cy="7" r="4" stroke="currentColor" stroke-width="1.8"/></svg></span>
 					<span class="portal-copy"><span class="portal-title">Client Portal</span></span>
 					<span class="portal-arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
 				</a>
-				<a data-link="contact.html" class="portal-link" role="menuitem">
+				<a data-link="https://linealedge.themfbox.com/" class="portal-link" role="menuitem" target="_blank" rel="noopener noreferrer">
 					<span class="portal-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="12" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 21h8M12 17v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
 					<span class="portal-copy"><span class="portal-title">Advisor Portal</span></span>
 					<span class="portal-arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
@@ -69,25 +69,84 @@ const routeLoaderLogoMarkup = `
 </svg>`;
 
 function prefixRoot(root, value) {
-	return value.startsWith('mailto:') || value.startsWith('tel:') || value.startsWith('http') || value.startsWith('#') ? value : `${root}${value}`;
+	return value.startsWith('mailto:') || value.startsWith('tel:') || value.startsWith('http') || value.startsWith('#') || value.startsWith('/') ? value : `${root}${value}`;
+}
+
+function isLiveDomain() {
+	return window.location.hostname === 'linealedge.com' || window.location.hostname === 'www.linealedge.com';
+}
+
+function cleanRoute(value) {
+	if (!value || value.startsWith('mailto:') || value.startsWith('tel:') || value.startsWith('http') || value.startsWith('#')) return value;
+	const hashIndex = value.indexOf('#');
+	const queryIndex = value.indexOf('?');
+	const splitIndex = [hashIndex, queryIndex].filter((idx) => idx >= 0).sort((a, b) => a - b)[0];
+	const path = splitIndex >= 0 ? value.slice(0, splitIndex) : value;
+	const suffix = splitIndex >= 0 ? value.slice(splitIndex) : '';
+	const normalized = path.replace(/^\.\//, '').replace(/^\.\.\//, '').replace(/^\/+/, '');
+
+	if (!normalized || normalized === 'index.html' || normalized === 'index') return `/${suffix}`;
+	if (normalized.endsWith('.html')) return `/${normalized.slice(0, -5)}${suffix}`;
+	return value.startsWith('/') ? value : `/${normalized}${suffix}`;
+}
+
+function routeHref(root, value) {
+	if (isLiveDomain()) return cleanRoute(value);
+	return prefixRoot(root, value);
+}
+
+function normalizeCleanUrl() {
+	if (!window.history || !window.history.replaceState) return;
+	if (window.location.protocol !== 'http:' && window.location.protocol !== 'https:') return;
+
+	try {
+		const cleanPath = window.location.pathname
+			.replace(/\/index\.html$/i, '/')
+			.replace(/\/index$/i, '/')
+			.replace(/\.html$/i, '');
+
+		if (cleanPath !== window.location.pathname) {
+			window.history.replaceState(null, document.title, `${cleanPath}${window.location.search}${window.location.hash}`);
+		}
+	} catch {
+		// URL cleanup should never block navigation, includes, or animations.
+	}
 }
 
 async function loadInclude(name, root) {
+	const includePath = `${root}${name}.html`;
+	const absolutePath = `/${name}.html`;
 	try {
-		const response = await fetch(`${root}${name}.html`);
+		const response = await fetch(includePath);
 		if (!response.ok) throw new Error(`Failed to load ${name}`);
 		return await response.text();
 	} catch {
-		return name === 'header' ? headerFallback : footerFallback;
+		try {
+			const response = await fetch(absolutePath);
+			if (!response.ok) throw new Error(`Failed to load ${name}`);
+			return await response.text();
+		} catch {
+			return name === 'header' ? headerFallback : footerFallback;
+		}
 	}
 }
 
 function hydrateInclude(container, root) {
 	container.querySelectorAll('[data-link]').forEach((node) => {
-		node.setAttribute('href', prefixRoot(root, node.getAttribute('data-link')));
+		node.setAttribute('href', routeHref(root, node.getAttribute('data-link')));
 	});
 	container.querySelectorAll('[data-src]').forEach((node) => {
 		node.setAttribute('src', prefixRoot(root, node.getAttribute('data-src')));
+	});
+}
+
+function hydratePageLinks() {
+	if (!isLiveDomain()) return;
+	document.querySelectorAll('a[href]').forEach((link) => {
+		const href = link.getAttribute('href');
+		if (!href || href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('http') || href.startsWith('#')) return;
+		const destination = new URL(href, window.location.href);
+		link.setAttribute('href', cleanRoute(`${destination.pathname}${destination.search}${destination.hash}`));
 	});
 }
 
@@ -177,6 +236,14 @@ async function loadShell() {
 	}
 
 	await Promise.all(tasks);
+}
+
+function safeInit(fn) {
+	try {
+		fn();
+	} catch (error) {
+		console.warn('Lineal Edge init skipped:', error);
+	}
 }
 
 function setActiveNav() {
@@ -774,19 +841,26 @@ function initContactForm() {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
+	normalizeCleanUrl();
 	const routeLoader = createRouteLoader();
 	if (routeLoader) showRouteLoader(routeLoader);
 
-	await loadShell();
-	setActiveNav();
-	initNav();
-	initRevealAnimations();
-	initHomeIntro();
-	initHomeJourney();
-	initHomeValues();
-	initAboutJourney();
-	initContactForm();
-	initRouteLoaderNavigation(routeLoader);
+	try {
+		await loadShell();
+	} catch (error) {
+		console.warn('Lineal Edge shell fallback used:', error);
+	}
+
+	safeInit(hydratePageLinks);
+	safeInit(setActiveNav);
+	safeInit(initNav);
+	safeInit(initRevealAnimations);
+	safeInit(initHomeIntro);
+	safeInit(initHomeJourney);
+	safeInit(initHomeValues);
+	safeInit(initAboutJourney);
+	safeInit(initContactForm);
+	safeInit(() => initRouteLoaderNavigation(routeLoader));
 
 	if (routeLoader) {
 		window.setTimeout(() => {
