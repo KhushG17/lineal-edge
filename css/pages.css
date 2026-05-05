@@ -8368,10 +8368,11 @@ body.page-home .values-inner{
 	:is(body.page-home, body.page-about) .journey-sticky{
 		--journey-header-clearance: 92px;
 		--journey-before-tree: 230px;
+		--journey-sticky-offset: calc(var(--journey-before-tree) - var(--journey-header-clearance));
 		position: sticky !important;
 		top: calc(var(--journey-header-clearance) - var(--journey-before-tree)) !important;
-		height: 100svh;
-		min-height: 100svh;
+		height: calc(100svh + var(--journey-sticky-offset));
+		min-height: calc(100svh + var(--journey-sticky-offset));
 		padding: var(--journey-header-clearance) var(--site-gutter, 32px) 34px;
 		overflow: hidden;
 		align-items: stretch;
@@ -8457,10 +8458,11 @@ body.page-home .values-inner{
 	:is(body.page-home, body.page-about) .journey-sticky{
 		--journey-header-clearance: 84px;
 		--journey-before-tree: 204px;
+		--journey-sticky-offset: calc(var(--journey-before-tree) - var(--journey-header-clearance));
 		position: sticky !important;
 		top: calc(var(--journey-header-clearance) - var(--journey-before-tree)) !important;
-		height: 100svh;
-		min-height: 100svh;
+		height: calc(100svh + var(--journey-sticky-offset));
+		min-height: calc(100svh + var(--journey-sticky-offset));
 		padding: var(--journey-header-clearance) var(--site-gutter, 20px) 22px;
 		overflow: hidden;
 		align-items: stretch;
