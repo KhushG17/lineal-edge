@@ -1,6 +1,6 @@
 const headerFallback = `
 <nav class="navbar is-transparent" id="navbar">
-	<a data-link="index.html" class="nav-logo" aria-label="Lineal Edge home">
+	<a data-link="/" class="nav-logo" aria-label="Lineal Edge home">
 		<img data-src="assets/icons/logo-dark.svg" alt="Lineal Edge" class="nav-logo-dark" />
 		<img data-src="assets/icons/logo-light.svg" alt="Lineal Edge" class="nav-logo-light" />
 	</a>
@@ -10,12 +10,12 @@ const headerFallback = `
 		<span></span>
 	</button>
 	<div class="nav-links" id="navLinks">
-		<a data-link="about.html" data-page-link="about" class="nav-link">About</a>
-		<a data-link="services.html" data-page-link="services" class="nav-link">Services</a>
-		<a data-link="careers.html" data-page-link="careers" class="nav-link">Careers</a>
-		<a data-link="contact.html" data-page-link="contact" class="nav-link">Contact</a>
-		<a data-link="policies/faq.html" data-page-link="faq" class="nav-link">FAQ</a>
-		<a data-link="policies/disclosure.html" data-page-link="disclosure" class="nav-link">Disclosure</a>
+		<a data-link="/about" data-page-link="about" class="nav-link">About</a>
+		<a data-link="/services" data-page-link="services" class="nav-link">Services</a>
+		<a data-link="/careers" data-page-link="careers" class="nav-link">Careers</a>
+		<a data-link="/contact" data-page-link="contact" class="nav-link">Contact</a>
+		<a data-link="/policies/faq" data-page-link="faq" class="nav-link">FAQ</a>
+		<a data-link="/policies/disclosure" data-page-link="disclosure" class="nav-link">Disclosure</a>
 		<div class="nav-login" id="navLogin">
 			<button class="nav-login-toggle" id="navLoginToggle" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="navLoginMenu">
 				<span>Login</span>
@@ -54,11 +54,11 @@ const footerFallback = `
 				<a href="https://x.com/LinealEdge" target="_blank" rel="noopener noreferrer" aria-label="X"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
 			</div>
 		</div>
-		<div class="footer-col"><h4>Company</h4><div class="footer-col-body"><a data-link="about.html" class="footer-link">About Us</a><a data-link="services.html" class="footer-link">Services</a><a data-link="careers.html" class="footer-link">Careers</a><a data-link="contact.html" class="footer-link">Contact</a></div></div>
-		<div class="footer-col"><h4>Policies</h4><div class="footer-col-body"><a data-link="policies/faq.html" class="footer-link">FAQs</a><a data-link="policies/disclosure.html" class="footer-link">Disclosure</a><a data-link="policies/privacy-policy.html" class="footer-link">Privacy Policy</a><a data-link="policies/terms-of-service.html" class="footer-link">Terms of Service</a></div></div>
+		<div class="footer-col"><h4>Company</h4><div class="footer-col-body"><a data-link="/about" class="footer-link">About Us</a><a data-link="/services" class="footer-link">Services</a><a data-link="/careers" class="footer-link">Careers</a><a data-link="/contact" class="footer-link">Contact</a></div></div>
+		<div class="footer-col"><h4>Policies</h4><div class="footer-col-body"><a data-link="/policies/faq" class="footer-link">FAQs</a><a data-link="/policies/disclosure" class="footer-link">Disclosure</a><a data-link="/policies/privacy-policy" class="footer-link">Privacy Policy</a><a data-link="/policies/terms-of-service" class="footer-link">Terms of Service</a></div></div>
 		<div class="footer-col"><h4>Get in Touch</h4><div class="footer-col-body"><a href="mailto:info@linealedge.com" class="footer-link">info@linealedge.com</a><a href="tel:+919828024449" class="footer-link">+91-9828024449</a><a href="https://maps.app.goo.gl/hKuiCi1wMzkyhKz19" target="_blank" rel="noopener noreferrer" class="footer-link">385 Gurunanak Pura,<br>Adarsh Nagar, Jaipur-302004</a></div></div>
 	</div>
-	<div class="footer-bottom"><span>© 2026 Lineal Edge. All rights reserved.</span><div class="footer-bottom-links"><a data-link="policies/disclosure.html">Disclosure</a><a data-link="policies/faq.html">FAQs</a></div></div>
+	<div class="footer-bottom"><span>© 2026 Lineal Edge. All rights reserved.</span><div class="footer-bottom-links"><a data-link="/policies/disclosure">Disclosure</a><a data-link="/policies/faq">FAQs</a></div></div>
 </footer>`;
 
 const routeLoaderLogoMarkup = `
