@@ -282,6 +282,7 @@ function initNav() {
 		if (!navLinks || !navToggle) return;
 		nav.classList.toggle('nav-open', isOpen);
 		navLinks.classList.toggle('is-open', isOpen);
+		document.body.classList.toggle('nav-drawer-open', isOpen);
 		navToggle.setAttribute('aria-expanded', String(isOpen));
 	};
 
@@ -300,7 +301,7 @@ function initNav() {
 		});
 
 		window.addEventListener('resize', () => {
-			if (window.innerWidth > 680) setMobileNav(false);
+			if (window.innerWidth > 1024) setMobileNav(false);
 		});
 	}
 
@@ -332,7 +333,10 @@ function initNav() {
 		if (!navLogin.contains(event.target)) setLoginMenu(false);
 	});
 	document.addEventListener('keydown', (event) => {
-		if (event.key === 'Escape') setLoginMenu(false);
+		if (event.key === 'Escape') {
+			setLoginMenu(false);
+			setMobileNav(false);
+		}
 	});
 }
 
