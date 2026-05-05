@@ -8226,6 +8226,42 @@ body.page-home .values-inner{
 	:is(body.page-home, body.page-about) .journey-years{
 		grid-row: 5;
 	}
+
+	:is(body.page-home, body.page-about) .journey-years{
+		position: relative;
+		height: 88px;
+		padding: 20px 28px 14px;
+		align-self: end;
+		align-items: flex-start;
+		border-radius: 20px;
+	}
+
+	:is(body.page-home, body.page-about) .journey-years::before,
+	:is(body.page-home, body.page-about) .journey-years-fill{
+		left: 28px;
+		right: 28px;
+		top: 28px;
+	}
+
+	:is(body.page-home, body.page-about) .journey-year-marker{
+		gap: 9px;
+		min-width: 44px;
+	}
+
+	:is(body.page-home, body.page-about) .journey-year-dot{
+		width: 11px;
+		height: 11px;
+	}
+
+	:is(body.page-home, body.page-about) .journey-year-marker.active .journey-year-dot{
+		transform: scale(1.18);
+		box-shadow: 0 0 0 5px rgba(42,197,88,0.16);
+	}
+
+	:is(body.page-home, body.page-about) .journey-year-label{
+		font-size: 0.95rem;
+		line-height: 1;
+	}
 }
 
 @media (max-width: 760px){
@@ -8344,7 +8380,7 @@ body.page-home .values-inner{
 	:is(body.page-home, body.page-about) .journey-inner{
 		max-width: 720px;
 		height: 100%;
-		grid-template-rows: 20px 82px 340px minmax(0, 1fr) auto;
+		grid-template-rows: 20px 82px 340px minmax(0, 1fr) 88px;
 		gap: 14px;
 	}
 
@@ -8369,6 +8405,17 @@ body.page-home .values-inner{
 
 	:is(body.page-home, body.page-about) .journey-panels{
 		min-height: 0;
+		height: 100%;
+		overflow: hidden;
+	}
+
+	:is(body.page-home, body.page-about) .journey-panel{
+		justify-content: center;
+		overflow: hidden;
+	}
+
+	:is(body.page-home, body.page-about) .journey-pbody{
+		line-height: 1.48;
 	}
 }
 
@@ -8422,7 +8469,7 @@ body.page-home .values-inner{
 	:is(body.page-home, body.page-about) .journey-inner{
 		max-width: 420px;
 		height: 100%;
-		grid-template-rows: 18px 72px 260px minmax(0, 1fr) auto;
+		grid-template-rows: 18px 72px 260px minmax(0, 1fr) 76px;
 		gap: 12px;
 	}
 
@@ -8462,10 +8509,67 @@ body.page-home .values-inner{
 
 	:is(body.page-home, body.page-about) .journey-panels{
 		min-height: 0;
+		height: 100%;
+		overflow: hidden;
+	}
+
+	:is(body.page-home, body.page-about) .journey-panel{
+		justify-content: center;
+		overflow: hidden;
+	}
+
+	:is(body.page-home, body.page-about) .journey-panel-head{
+		margin-bottom: 10px;
+	}
+
+	:is(body.page-home, body.page-about) .journey-ptitle{
+		margin-bottom: 10px;
+	}
+
+	:is(body.page-home, body.page-about) .journey-pbody{
+		line-height: 1.42;
 	}
 
 	:is(body.page-home, body.page-about) .journey-years{
 		padding: 14px 18px 12px;
+		align-self: stretch;
+	}
+
+	:is(body.page-home, body.page-about) .journey-years{
+		position: relative;
+		height: 76px;
+		padding: 15px 22px 10px;
+		align-self: end;
+		align-items: flex-start;
+		border-radius: 18px;
+	}
+
+	:is(body.page-home, body.page-about) .journey-years::before,
+	:is(body.page-home, body.page-about) .journey-years-fill{
+		left: 22px;
+		right: 22px;
+		top: 22px;
+	}
+
+	:is(body.page-home, body.page-about) .journey-year-marker{
+		gap: 8px;
+		min-width: 42px;
+	}
+
+	:is(body.page-home, body.page-about) .journey-year-dot{
+		width: 10px;
+		height: 10px;
+		border-width: 2px;
+	}
+
+	:is(body.page-home, body.page-about) .journey-year-marker.active .journey-year-dot{
+		transform: scale(1.18);
+		box-shadow: 0 0 0 5px rgba(42,197,88,0.16);
+	}
+
+	:is(body.page-home, body.page-about) .journey-year-label{
+		font-size: 0.88rem;
+		line-height: 1;
 	}
 }
 
@@ -8475,7 +8579,7 @@ body.page-home .values-inner{
 	}
 
 	:is(body.page-home, body.page-about) .journey-inner{
-		grid-template-rows: 18px 68px 230px minmax(0, 1fr) auto;
+		grid-template-rows: 18px 68px 230px minmax(0, 1fr) 72px;
 		gap: 10px;
 	}
 
@@ -8492,5 +8596,21 @@ body.page-home .values-inner{
 
 	:is(body.page-home, body.page-about) .journey-years{
 		padding: 12px 16px 10px;
+	}
+
+	:is(body.page-home, body.page-about) .journey-years{
+		height: 72px;
+		padding: 14px 20px 9px;
+	}
+
+	:is(body.page-home, body.page-about) .journey-years::before,
+	:is(body.page-home, body.page-about) .journey-years-fill{
+		left: 20px;
+		right: 20px;
+		top: 21px;
+	}
+
+	:is(body.page-home, body.page-about) .journey-year-label{
+		font-size: 0.84rem;
 	}
 }
