@@ -8140,3 +8140,9 @@ body.page-home .values-inner{
 		justify-content: flex-start;
 	}
 }
+
+@media (max-width: 1024px){
+	body.page-home .values-panel[data-idx="2"] .values-ctas{
+		display: none;
+	}
+}
