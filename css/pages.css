@@ -8663,3 +8663,59 @@ body.page-home .values-inner{
 		font-size: 0.84rem;
 	}
 }
+
+/* Final mobile drawer column fix */
+@media (max-width: 1024px){
+	:is(
+		body.page-home,
+		body.page-about,
+		body.page-services,
+		body.page-careers,
+		body.page-contact,
+		body.page-policy.page-disclosure,
+		body.page-policy.page-faq,
+		body.page-policy.page-privacy,
+		body.page-policy.page-terms
+	) .nav-links{
+		display: flex !important;
+		flex-direction: column !important;
+		flex-wrap: nowrap !important;
+		align-items: stretch !important;
+		justify-content: flex-start !important;
+		row-gap: 0 !important;
+	}
+
+	:is(
+		body.page-home,
+		body.page-about,
+		body.page-services,
+		body.page-careers,
+		body.page-contact,
+		body.page-policy.page-disclosure,
+		body.page-policy.page-faq,
+		body.page-policy.page-privacy,
+		body.page-policy.page-terms
+	) .nav-login{
+		display: block !important;
+		flex: 0 0 auto !important;
+		width: 100% !important;
+		margin: 28px 0 0 !important;
+		padding: 22px 0 0 !important;
+	}
+
+	:is(
+		body.page-home,
+		body.page-about,
+		body.page-services,
+		body.page-careers,
+		body.page-contact,
+		body.page-policy.page-disclosure,
+		body.page-policy.page-faq,
+		body.page-policy.page-privacy,
+		body.page-policy.page-terms
+	) .nav-login-menu{
+		display: grid !important;
+		width: 100% !important;
+		gap: 12px !important;
+	}
+}
