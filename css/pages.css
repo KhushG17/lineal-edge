@@ -8147,6 +8147,53 @@ body.page-home .values-inner{
 	}
 }
 
+@media (max-width: 1024px){
+	:is(body.page-home, body.page-about, body.page-services, body.page-careers, body.page-contact, body.page-policy) .nav-login{
+		display: block !important;
+		justify-content: initial !important;
+		align-items: initial !important;
+		width: 100% !important;
+		max-width: none !important;
+		margin: 28px 0 0 !important;
+		padding: 22px 0 0 !important;
+		border-top: 1px solid rgba(7,31,69,0.1);
+	}
+
+	:is(body.page-home, body.page-about, body.page-services, body.page-careers, body.page-contact, body.page-policy) .nav-login-menu{
+		width: 100% !important;
+		max-width: none !important;
+		margin: 0 !important;
+		right: auto !important;
+		left: auto !important;
+		display: grid !important;
+		gap: 12px !important;
+	}
+
+	:is(body.page-home, body.page-about, body.page-services, body.page-careers, body.page-contact, body.page-policy) .portal-link{
+		width: 100%;
+		margin: 0 !important;
+		grid-template-columns: 44px minmax(0, 1fr) 18px;
+		padding: 14px 16px;
+	}
+}
+
+@media (max-width: 760px){
+	:is(body.page-home, body.page-about, body.page-services, body.page-careers, body.page-contact, body.page-policy) .nav-links{
+		width: calc(100vw - 28px) !important;
+		padding: 104px 20px 26px !important;
+	}
+
+	:is(body.page-home, body.page-about, body.page-services, body.page-careers, body.page-contact, body.page-policy) .nav-link{
+		width: 100%;
+		max-width: none;
+		padding-left: 2px;
+	}
+
+	:is(body.page-home, body.page-about, body.page-services, body.page-careers, body.page-contact, body.page-policy) .nav-login::before{
+		margin-left: 0;
+	}
+}
+
 /* Journey final responsive alignment */
 @media (min-width: 1025px){
 	:is(body.page-home, body.page-about) .journey-stories-head{
