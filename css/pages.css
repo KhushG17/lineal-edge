@@ -8672,10 +8672,7 @@ body.page-home .values-inner{
 		body.page-services,
 		body.page-careers,
 		body.page-contact,
-		body.page-policy.page-disclosure,
-		body.page-policy.page-faq,
-		body.page-policy.page-privacy,
-		body.page-policy.page-terms
+		body.page-policy
 	) .nav-links{
 		display: flex !important;
 		flex-direction: column !important;
@@ -8691,10 +8688,7 @@ body.page-home .values-inner{
 		body.page-services,
 		body.page-careers,
 		body.page-contact,
-		body.page-policy.page-disclosure,
-		body.page-policy.page-faq,
-		body.page-policy.page-privacy,
-		body.page-policy.page-terms
+		body.page-policy
 	) .nav-login{
 		display: block !important;
 		flex: 0 0 auto !important;
@@ -8709,10 +8703,7 @@ body.page-home .values-inner{
 		body.page-services,
 		body.page-careers,
 		body.page-contact,
-		body.page-policy.page-disclosure,
-		body.page-policy.page-faq,
-		body.page-policy.page-privacy,
-		body.page-policy.page-terms
+		body.page-policy
 	) .nav-login-menu{
 		display: grid !important;
 		width: 100% !important;
